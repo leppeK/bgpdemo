@@ -23568,6 +23568,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23577,6 +23578,7 @@ metadata:
     app.kubernetes.io/name: argocd-applicationset-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-applicationset-controller
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23586,6 +23588,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23595,6 +23598,7 @@ metadata:
     app.kubernetes.io/name: argocd-notifications-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-notifications-controller
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23604,6 +23608,7 @@ metadata:
     app.kubernetes.io/name: argocd-redis
     app.kubernetes.io/part-of: argocd
   name: argocd-redis
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23613,6 +23618,7 @@ metadata:
     app.kubernetes.io/name: argocd-repo-server
     app.kubernetes.io/part-of: argocd
   name: argocd-repo-server
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23622,6 +23628,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
+  namespace: argocd
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
