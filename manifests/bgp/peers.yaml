@@ -1,0 +1,63 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: default-pool
+spec:
+  blocks:
+    - cidr: 192.168.200.0/24
+  disabled: false
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: peer-rack0
+spec:
+  nodeSelector:
+    matchLabels:
+      rack: rack0
+  virtualRouters:
+    - exportPodCIDR: true
+      localASN: 64514
+      neighbors:
+        - connectRetryTimeSeconds: 120
+          eBGPMultihopTTL: 10
+          gracefulRestart:
+            enabled: true
+            restartTimeSeconds: 120
+          holdTimeSeconds: 90
+          keepAliveTimeSeconds: 30
+          peerASN: 64513
+          peerAddress: 192.168.120.1/24
+          peerPort: 179
+      serviceSelector:
+        matchExpressions:
+          - key: bgpNoAdvertise
+            operator: DoesNotExist
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: peer-rack1
+spec:
+  nodeSelector:
+    matchLabels:
+      rack: rack1
+  virtualRouters:
+    - exportPodCIDR: true
+      localASN: 64514
+      neighbors:
+        - connectRetryTimeSeconds: 120
+          eBGPMultihopTTL: 10
+          gracefulRestart:
+            enabled: true
+            restartTimeSeconds: 120
+          holdTimeSeconds: 90
+          keepAliveTimeSeconds: 30
+          peerASN: 64513
+          peerAddress: 192.168.130.1/24
+          peerPort: 179
+      serviceSelector:
+        matchExpressions:
+          - key: bgpNoAdvertise
+            operator: DoesNotExist

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bgpdemo
+  name: bgpdemo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bgpdemo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bgpdemo
+    spec:
+      containers:
+        - image: nginx:latest
+          name: nginx
