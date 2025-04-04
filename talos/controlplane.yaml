@@ -228,32 +228,6 @@ machine:
         endpoints:
           - http://172.31.100.14:5000
 
-  # # Specifies mirror configuration for each registry host namespace.
-  # mirrors:
-  #     ghcr.io:
-  #         # List of endpoints (URLs) for registry mirrors to use.
-  #         endpoints:
-  #             - https://registry.insecure
-  #             - https://ghcr.io/v2/
-
-  # # Specifies TLS & auth configuration for HTTPS image registries.
-  # config:
-  #     registry.insecure:
-  #         # The TLS configuration for the registry.
-  #         tls:
-  #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-  #
-  #             # # Enable mutual TLS authentication with the registry.
-  #             # clientIdentity:
-  #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-  #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-  #
-  #         # # The auth configuration for this registry.
-  #         # auth:
-  #         #     username: username # Optional registry authentication.
-  #         #     password: password # Optional registry authentication.
-
-  # Features describe individual Talos features that can be switched on or off.
   features:
     rbac: true # Enable role-based access control (RBAC).
     stableHostname: true # Enable stable default hostname.
@@ -268,179 +242,8 @@ machine:
       enabled: true # Enable host DNS caching resolver.
       forwardKubeDNSToHost: true # Use the host DNS resolver as upstream for Kubernetes CoreDNS pods.
 
-    # # Configure Talos API access from Kubernetes pods.
-    # kubernetesTalosAPIAccess:
-    #     enabled: true # Enable Talos API access from Kubernetes pods.
-    #     # The list of Talos API roles which can be granted for access from Kubernetes pods.
-    #     allowedRoles:
-    #         - os:reader
-    #     # The list of Kubernetes namespaces Talos API access is available from.
-    #     allowedKubernetesNamespaces:
-    #         - kube-system
-  # Configures the node labels for the machine.
   nodeLabels:
     node.kubernetes.io/exclude-from-external-load-balancers: ""
-
-  # # Provides machine specific control plane configuration options.
-
-  # # ControlPlane definition example.
-  # controlPlane:
-  #     # Controller manager machine specific configuration options.
-  #     controllerManager:
-  #         disabled: false # Disable kube-controller-manager on the node.
-  #     # Scheduler machine specific configuration options.
-  #     scheduler:
-  #         disabled: true # Disable kube-scheduler on the node.
-
-  # # Used to provide static pod definitions to be run by the kubelet directly bypassing the kube-apiserver.
-
-  # # nginx static pod.
-  # pods:
-  #     - apiVersion: v1
-  #       kind: pod
-  #       metadata:
-  #         name: nginx
-  #       spec:
-  #         containers:
-  #             - image: nginx
-  #               name: nginx
-
-  # # Used to partition, format and mount additional disks.
-
-  # # MachineDisks list example.
-  # disks:
-  #     - device: /dev/sdb # The name of the disk to use.
-  #       # A list of partitions to create on the disk.
-  #       partitions:
-  #         - mountpoint: /var/mnt/extra # Where to mount the partition.
-  #
-  #           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
-
-  #           # # Human readable representation.
-  #           # size: 100 MB
-  #           # # Precise value in bytes.
-  #           # size: 1073741824
-
-  # # Allows the addition of user specified files.
-
-  # # MachineFiles usage example.
-  # files:
-  #     - content: '...' # The contents of the file.
-  #       permissions: 0o666 # The file's permissions in octal.
-  #       path: /tmp/file.txt # The path of the file.
-  #       op: append # The operation to use
-
-  # # The `env` field allows for the addition of environment variables.
-
-  # # Environment variables definition examples.
-  # env:
-  #     GRPC_GO_LOG_SEVERITY_LEVEL: info
-  #     GRPC_GO_LOG_VERBOSITY_LEVEL: "99"
-  #     https_proxy: http://SERVER:PORT/
-  # env:
-  #     GRPC_GO_LOG_SEVERITY_LEVEL: error
-  #     https_proxy: https://USERNAME:PASSWORD@SERVER:PORT/
-  # env:
-  #     https_proxy: http://DOMAIN\USERNAME:PASSWORD@SERVER:PORT/
-
-  # # Used to configure the machine's time settings.
-
-  # # Example configuration for cloudflare ntp server.
-  # time:
-  #     disabled: false # Indicates if the time service is disabled for the machine.
-  #     # description: |
-  #     servers:
-  #         - time.cloudflare.com
-  #     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
-
-  # # Used to configure the machine's sysctls.
-
-  # # MachineSysctls usage example.
-  # sysctls:
-  #     kernel.domainname: talos.dev
-  #     net.ipv4.ip_forward: "0"
-  #     net/ipv6/conf/eth0.100/disable_ipv6: "1"
-
-  # # Used to configure the machine's sysfs.
-
-  # # MachineSysfs usage example.
-  # sysfs:
-  #     devices.system.cpu.cpu0.cpufreq.scaling_governor: performance
-
-  # # Machine system disk encryption configuration.
-  # systemDiskEncryption:
-  #     # Ephemeral partition encryption.
-  #     ephemeral:
-  #         provider: luks2 # Encryption provider to use for the encryption.
-  #         # Defines the encryption keys generation and storage method.
-  #         keys:
-  #             - # Deterministically generated key from the node UUID and PartitionLabel.
-  #               nodeID: {}
-  #               slot: 0 # Key slot number for LUKS2 encryption.
-  #
-  #               # # KMS managed encryption key.
-  #               # kms:
-  #               #     endpoint: https://192.168.88.21:4443 # KMS endpoint to Seal/Unseal the key.
-  #
-  #         # # Cipher kind to use for the encryption. Depends on the encryption provider.
-  #         # cipher: aes-xts-plain64
-
-  #         # # Defines the encryption sector size.
-  #         # blockSize: 4096
-
-  #         # # Additional --perf parameters for the LUKS2 encryption.
-  #         # options:
-  #         #     - no_read_workqueue
-  #         #     - no_write_workqueue
-
-  # # Configures the udev system.
-  # udev:
-  #     # List of udev rules to apply to the udev system
-  #     rules:
-  #         - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
-
-  # # Configures the logging system.
-  # logging:
-  #     # Logging destination.
-  #     destinations:
-  #         - endpoint: tcp://1.2.3.4:12345 # Where to send logs. Supported protocols are "tcp" and "udp".
-  #           format: json_lines # Logs format.
-
-  # # Configures the kernel.
-  # kernel:
-  #     # Kernel modules to load.
-  #     modules:
-  #         - name: brtfs # Module name.
-
-  # # Configures the seccomp profiles for the machine.
-  # seccompProfiles:
-  #     - name: audit.json # The `name` field is used to provide the file name of the seccomp profile.
-  #       # The `value` field is used to provide the seccomp profile.
-  #       value:
-  #         defaultAction: SCMP_ACT_LOG
-
-  # # Override (patch) settings in the default OCI runtime spec for CRI containers.
-
-  # # override default open file limit
-  # baseRuntimeSpecOverrides:
-  #     process:
-  #         rlimits:
-  #             - hard: 1024
-  #               soft: 1024
-  #               type: RLIMIT_NOFILE
-
-  # # Configures the node annotations for the machine.
-
-  # # node annotations example.
-  # nodeAnnotations:
-  #     customer.io/rack: r13a25
-
-  # # Configures the node taints for the machine. Effect is optional.
-
-  # # node taints example.
-  # nodeTaints:
-  #     exampleTaint: exampleTaintValue:NoSchedule
-# Provides cluster specific configuration options.
 cluster:
   id: RWOhmV1DbMxpB0QmcUrR7_s08IpWcODih3KwnKfDS3U= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
   secret: +gah+kqLoNhE1JjWyBbzAHS9tM+CGGvkTcARsdZ8QzI= # Shared secret of cluster (base64 encoded random 32 bytes).
@@ -511,43 +314,10 @@ cluster:
       rules:
         - level: Metadata
 
-    # # Configure the API server authorization config. Node and RBAC authorizers are always added irrespective of the configuration.
-    # authorizationConfig:
-    #     - type: Webhook # Type is the name of the authorizer. Allowed values are `Node`, `RBAC`, and `Webhook`.
-    #       name: webhook # Name is used to describe the authorizer.
-    #       # webhook is the configuration for the webhook authorizer.
-    #       webhook:
-    #         connectionInfo:
-    #             type: InClusterConfig
-    #         failurePolicy: Deny
-    #         matchConditionSubjectAccessReviewVersion: v1
-    #         matchConditions:
-    #             - expression: has(request.resourceAttributes)
-    #             - expression: '!(\''system:serviceaccounts:kube-system\'' in request.groups)'
-    #         subjectAccessReviewVersion: v1
-    #         timeout: 3s
-    #     - type: Webhook # Type is the name of the authorizer. Allowed values are `Node`, `RBAC`, and `Webhook`.
-    #       name: in-cluster-authorizer # Name is used to describe the authorizer.
-    #       # webhook is the configuration for the webhook authorizer.
-    #       webhook:
-    #         connectionInfo:
-    #             type: InClusterConfig
-    #         failurePolicy: NoOpinion
-    #         matchConditionSubjectAccessReviewVersion: v1
-    #         subjectAccessReviewVersion: v1
-    #         timeout: 3s
-  # Controller manager server specific configuration options.
   controllerManager:
     image: registry.k8s.io/kube-controller-manager:v1.32.3 # The container image used in the controller manager manifest.
-  # Kube-proxy server-specific configuration options
-  # image: registry.k8s.io/kube-proxy:v1.32.3 # The container image used in the kube-proxy manifest.
-
-  # # Disable kube-proxy deployment on cluster bootstrap.
-  # disabled: false
-  # Scheduler server specific configuration options.
   scheduler:
     image: registry.k8s.io/kube-scheduler:v1.32.3 # The container image used in the scheduler manifest.
-  # Configures cluster member discovery.
   discovery:
     enabled: true # Enable the cluster membership discovery feature.
     # Configure registries used for cluster member discovery.
@@ -557,36 +327,13 @@ cluster:
         disabled: true # Disable Kubernetes discovery registry.
       # Service registry is using an external service to push and pull information about cluster members.
       service: {}
-      # # External service endpoint.
-      # endpoint: https://discovery.talos.dev/
-  # Etcd specific configuration options.
   etcd:
-    # The `ca` is the root certificate authority of the PKI.
     ca:
       crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmVENDQVNPZ0F3SUJBZ0lRUjdDUkNIcHFVQVZFWUtnc3M1K29CakFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEkxTURNek1URTBNakkwTlZvWERUTTFNRE15T1RFME1qSTBOVm93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkdEejVmWFFSTkhuCmExdWtPak0wRCtjbUJxcWEyanhRQ3lOalJnaGc2Z0pSdUFXVHpENFo5Sm9mTGNZRlBRandZcmlpN3ZsbS9XMFAKc2RvNVM1akFISmlqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVWk9CdUJBTHRuQ3RJCjlpYWJYYWVyZ3Vlb1BtUXdDZ1lJS29aSXpqMEVBd0lEU0FBd1JRSWdhaEJ6dFcwWWEzcm5HdEQ4TStJM3Z5WUQKZzJWOFFmZTN6dzEycVJYRlp3NENJUUNyb1k2Z2xLTnFuWWhVbks5MmF2M0d4T2dPY2FCK2M4c0hsZVNJd1FmRQo5QT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
       key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUl5SzRrS2lpMGd1NFF5THdvRnR6c2dpQzMwaFBhclVLYzdRTXo1bFZRRFFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFWVBQbDlkQkUwZWRyVzZRNk16UVA1eVlHcXByYVBGQUxJMk5HQ0dEcUFsRzRCWlBNUGhuMAptaDh0eGdVOUNQQml1S0x1K1diOWJRK3gyamxMbU1BY21BPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
-
-    # # The container image used to create the etcd service.
-    # image: gcr.io/etcd-development/etcd:v3.5.19
-
-    # # The `advertisedSubnets` field configures the networks to pick etcd advertised IP from.
-    # advertisedSubnets:
-    #     - 10.0.0.0/8
-  # A list of urls that point to additional manifests.
   extraManifests:
-    - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  #   - https://www.example.com/manifest1.yaml
-  #   - https://www.example.com/manifest2.yaml
-
-  # A list of inline Kubernetes manifests.
+    - https://raw.githubusercontent.com/leppeK/bgpdemo/refs/heads/main/manifests/argocd/install.yaml
   inlineManifests:
-    - name: argocd-namespace
-      contents: |
-        ---
-        apiVersion: v1
-        kind: Namespace
-        metadata:
-          name: argocd
     - name: cilium-install
       contents: |
         ---
